@@ -13,8 +13,8 @@ State,
 PostalCode AS [Postal Code],
 Region,
 Products.Id AS [Product Id],
-Category,
-SubCategory AS [Sub-Category],
+c2.Name AS Category,
+c1.Name AS [Sub-Category],
 Products.Name AS [Product Name],
 Sales,
 Quantity,
@@ -30,7 +30,12 @@ ON ShipMode.Id = Orders.ShipMode
 INNER JOIN Customers
 ON Orders.CustomerId = Customers.Id
 INNER JOIN Segments 
-ON Customers.Segment = Segments.Id;
-
+ON Customers.Segment = Segments.Id
+INNER JOIN Categories c1
+ON c1.Id = Products.SubCategory
+INNER JOIN Addresses
+ON Addresses.Id = Orders.AddressId
+INNER JOIN Categories c2
+ON c2.Id = c1.ParentCategoryId;
 
 SELECT * FROM SuperstoreView;
